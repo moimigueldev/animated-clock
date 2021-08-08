@@ -1,8 +1,22 @@
+let angle = 0;
+
 function setup() {
-	createCanvas(windowWidth, windowHeight);
-	// put setup code here
+  createCanvas(400, 400);
+  // put setup code here
+  angleMode(DEGREES);
 }
 
 function draw() {
-	// put drawing code here
+  background(50);
+  translate(width / 2, height / 2);
+
+  noFill();
+  stroke(255);
+  strokeWeight(2);
+  push();
+  rotate(-90);
+  arc(0, 0, 50, 50, 0, angle);
+  pop();
+
+  angle += 1;
 }
