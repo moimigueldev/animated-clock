@@ -1,16 +1,20 @@
 let arm;
+let timeArc;
 function setup() {
   createCanvas(400, 400);
   angleMode(DEGREES);
   arm = new Arm();
+  timeArc = new TimeArc();
 }
 
 function draw() {
-  background(50);
+  background('#E5DADA');
   translate(width / 2, height / 2);
 
-  // SECONDS ARM
+  // UPDATE ARMS AND ARCS
   arm.update();
+
+  // SECONDS ARM
   arm.showSeconds();
 
   // Minute ARM
@@ -19,61 +23,59 @@ function draw() {
   // HOUR ARM
   arm.showHours();
 
+  // SECONDS ARC
+  timeArc.showSecondsArc();
+
+  // MINUTE ARC
+  timeArc.showMinuteArc();
+
+  // HOUR ARC
+  timeArc.showHourArc();
+
   // CENTER DOT
   stroke(255);
   strokeWeight(8);
   point(0, 0);
 }
 
-class Arm {
+class TimeArc extends Arm {
+  strokeWidth = 15;
   constructor() {
-    this.seconds = this.getSeconds();
-    this.minutes = this.getMinutes();
-    this.hours = this.getHours();
+    super();
+    this.a = 0;
   }
 
   update() {
-    this.seconds = this.getSeconds();
-    this.minutes = this.getMinutes();
-    this.hours = this.getHours();
+    this.a += 1;
   }
 
-  showSeconds() {
+  showSecondsArc() {
     push();
-    strokeWeight(5);
-    rotate(this.seconds);
-    stroke('#E59500');
-    line(0, 0, 0, -height / 3.8);
+    stroke(this.secondColor);
+    strokeWeight(this.strokeWidth);
+    noFill();
+    rotate(-90);
+    arc(0, 0, 250, 250, 0, this.getSeconds());
     pop();
   }
 
-  showMinutes() {
+  showMinuteArc() {
     push();
-    strokeWeight(5);
-    rotate(this.minutes);
-    stroke('#840032');
-    line(0, 0, 0, -height / 4);
+    stroke(this.minuteColor);
+    strokeWeight(this.strokeWidth);
+    noFill();
+    rotate(-90);
+    arc(0, 0, 300, 300, 0, this.getMinutes());
     pop();
   }
 
-  showHours() {
+  showHourArc() {
     push();
-    strokeWeight(5);
-    rotate(this.hours);
-    stroke('#002642');
-    line(0, 0, 0, -height / 5.5);
+    stroke(this.hourColor);
+    strokeWeight(this.strokeWidth);
+    noFill();
+    rotate(-90);
+    arc(0, 0, 350, 350, 0, this.getHours());
     pop();
-  }
-
-  getMinutes() {
-    return map(new Date().getMinutes(), 0, 60, 0, 360);
-  }
-
-  getHours() {
-    return map(new Date().getHours() - 12, 0, 12, 0, 360);
-  }
-
-  getSeconds() {
-    return map(new Date().getSeconds(), 0, 60, 0, 360);
   }
 }
